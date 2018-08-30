@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Document</title>
+    <title></title>
+
+    <style type="text/css">
+        .is-loading { background: red; }
+    </style>
 </head>
 <body>
     <div id="root">
-        <ul>
-            <li v-for="name in names" v-text="name"></li>
-        </ul>
-
-        <input id="input" type="text" v-model="newName">
-        <button @click="addName">Add name</button>
+        <button :class="{ 'is-loading': isLoading }" @click="toggleClass">Toggle me</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
@@ -20,17 +19,14 @@
             el: '#root',
 
             data: {
-                newName: '',
-
-                names: ['Joe', 'Mary', 'Jane', 'Jack']
+                isLoading: false
             },
 
             methods: {
-                addName() {
-                    this.names.push(this.newName);
-
-                    this.newName = '';
+                toggleClass() {
+                    this.isLoading = true
                 }
+
             }
         });
     </script>
