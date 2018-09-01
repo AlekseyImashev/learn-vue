@@ -13,13 +13,19 @@
 
 <body>
     <div id="root" class="container">
-        <modal v-if="showModal" @close="showModal = false">
-            <p>
-                We instert any text here.
-            </p>
-        </modal>
+        <tabs>
+            <tab name="About Us" :selected="true">
+                <h1>Here is the content for the about us tab.</h1>
+            </tab>
 
-        <button @click="showModal = true">Show Modal</button>
+            <tab name="About Our Culture">
+                <h1>Here is the content for the about our culture tab.</h1>
+            </tab>
+
+            <tab name="About Our Vision">
+                <h1>Here is the content for the about our vision tab.</h1>
+            </tab>
+        </tabs>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
