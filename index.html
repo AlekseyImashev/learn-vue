@@ -1,30 +1,11 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <title>My App</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
-
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="root" class="container">
-        <progress-view inline-template>
-            <div>
-                <h1>Your Progress Through This Course Is {{ completionRate }}%</h1>
-
-                <p><button @click="completionRate +=10">Update Completion Rate</button></p>
-            </div>
-        </progress-view>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
-    <script src="main.js"></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>learn-vue</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/dist/build.js"></script>
+  </body>
 </html>
