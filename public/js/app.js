@@ -48,7 +48,84 @@ class Errors {
      * @param {string|null} field 
      */
     clear(field) {
-        delete this.errors[field];
+        if (field) {
+            delete this.errors[field];
+
+            return;
+        } 
+
+        this.errors = {};
+    }
+}
+
+class Form {
+    /**
+     * Create a new form instance.
+     * 
+     * @param {object} data 
+     */
+    constructor(data) {
+        this.originalData = data;
+
+        for(let field in data) {
+            this[field] = data[field];
+        }
+
+        this.errors = new Errors();
+    }
+
+    /**
+     * Fetch all relevant data for the form.
+     */
+    data() {
+        let data = Object.assign({}, this);
+
+        delete data.originalData;
+        delete data.errors;
+
+        return data;
+    }
+
+    /**
+     * Reset the form fields.
+     */
+    reset() {
+        for(let field in this.originalData) {
+            this[field] = '';
+        }
+    }
+
+    /**
+     * Submit the form.
+     * 
+     * @param {string} requestType 
+     * @param {string} url 
+     */
+    submit(requestType, url) {
+        axios[requestType](url, this.data())
+                .then(this.onSuccess.bind(this))
+                .catch(this.onFail.bind(this))
+    }
+
+    /**
+     * Handle a successful form submissions.
+     * 
+     * @param {object} response 
+     */
+    onSuccess(response) {
+        alert(response.data.message);
+
+        this.errors.clear();
+        this.reset();
+    }
+
+    /**
+     * Handle a failed form submission.
+     * 
+     * @param {object} error 
+     */
+    onFail(error) {
+        this.errors.record(error.response.data);
     }
 }
 
@@ -56,23 +133,15 @@ new Vue({
     el: '#app',
 
     data: {
-        name: '',
-        description: '',
-        errors: new Errors()
+        form: new Form({
+            name: '',
+            description: ''
+        })
     },
 
     methods: {
         onSubmit() {
-            axios.post('/projects', this.$data)
-                    .then(this.onSuccess)
-                    .catch(error => this.errors.record(error.response.data));
-        },
-
-        onSuccess(response) {
-            alert(response.data.message);
-
-            form.reset();
+            this.form.submit('post', '/projects');
         }
-        
     }
 });
