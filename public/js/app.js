@@ -78,10 +78,11 @@ class Form {
      * Fetch all relevant data for the form.
      */
     data() {
-        let data = Object.assign({}, this);
+        let data = {};
 
-        delete data.originalData;
-        delete data.errors;
+        for (let property in this.originalData) {
+            data[property] = this[property];
+        }
 
         return data;
     }
@@ -98,24 +99,51 @@ class Form {
     }
 
     /**
+     * Send a POST request to the given URL.
+     * @param {string} url 
+     */
+    post(url) {
+        return this.submit('post', url);
+    }
+
+    /**
+     * Sent a DELETE request to the given URL.
+     * @param {string} url 
+     */
+    delete(url) {
+        return this.submit('delete', url);
+    }
+
+    /**
      * Submit the form.
      * 
      * @param {string} requestType 
      * @param {string} url 
      */
     submit(requestType, url) {
-        axios[requestType](url, this.data())
-                .then(this.onSuccess.bind(this))
-                .catch(this.onFail.bind(this))
+        return new Promise((resolve, reject) => {
+            axios[requestType](url, this.data())
+                .then(response => {
+                    this.onSuccess(response.data);
+
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    this.onFail(error.response.data);
+
+                    reject(error.response.data);
+                });
+
+        });
     }
 
     /**
      * Handle a successful form submissions.
      * 
-     * @param {object} response 
+     * @param {object} data
      */
-    onSuccess(response) {
-        alert(response.data.message);
+    onSuccess(data) {
+        alert(data.message);
 
         this.reset();
     }
@@ -123,10 +151,10 @@ class Form {
     /**
      * Handle a failed form submission.
      * 
-     * @param {object} error 
+     * @param {object} errors
      */
-    onFail(error) {
-        this.errors.record(error.response.data);
+    onFail(errors) {
+        this.errors.record(errors);
     }
 }
 
@@ -142,7 +170,7 @@ new Vue({
 
     methods: {
         onSubmit() {
-            this.form.submit('post', '/projects');
+            this.form.post('/projects');
         }
     }
 });
