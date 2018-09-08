@@ -15,6 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('skills', function () {
-    return ['Laravel', 'Vue', 'PHP', 'JavaScript', 'Tooling'];
-});
+Route::get('projects/create', 'ProjectController@create');
+Route::post('projects', 'ProjectController@store');
