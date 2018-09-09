@@ -155,6 +155,8 @@ class Form {
      */
     onFail(errors) {
         this.errors.record(errors);
+
+        this.loading = false;
     }
 }
 
@@ -164,12 +166,15 @@ new Vue({
     data: {
         form: new Form({
             name: '',
-            description: ''
+            description: '',
+            loading: false
         })
     },
 
     methods: {
         onSubmit() {
+            this.form.loading = true;
+
             this.form.post('/projects');
         }
     }
