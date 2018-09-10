@@ -8,13 +8,18 @@
         <title>Laravel</title>
     </head>
     <body>
-        <div id="app">
-            <ul>
-                <li v-for="skill in skills" v-text="skill"></li>
-            </ul>
+        <div id="one">
+            <h1>
+                @{{ shared.user.name }}
+            </h1>
         </div>
 
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <div id="two">
+            <h1>
+                @{{ shared.user.name }}
+            </h1>
+        </div>
+
         <script src="https://unpkg.com/vue@2.3.0/dist/vue.js"></script>
         <script src="/js/app.js"></script>
     </body>
