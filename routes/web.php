@@ -15,5 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('projects/create', 'ProjectController@create');
-Route::post('projects', 'ProjectController@store');
+Route::get('/statuses', function () {
+    return App\Status::with('user')->latest()->get();
+});
